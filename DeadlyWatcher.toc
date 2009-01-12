@@ -1,0 +1,14 @@
+## Interface: 30000
+
+## Title: DeadlyWatcher
+## Notes: HUD for Deadly Poison stacks on target
+## Author: amoeba
+## Version: 0.0.0.1
+## X-Website: http://bryced.com
+## X-Email: petridish@gmail.com
+## X-Category: Misc
+
+## LoadManagers: AddonLoader
+## X-LoadOn-Always: delayed
+
+DeadlyWatcher.lua
