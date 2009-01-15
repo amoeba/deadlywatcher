@@ -2,6 +2,8 @@
 --  Locals and Defaults    --
 -----------------------------
 local f, t
+
+
 -----------------------
 --    Frame Setup    --
 -----------------------
@@ -22,6 +24,8 @@ t:SetShadowOffset(0.7, -0.7)
 f:SetScript("OnEvent", function(self, event, ...) if self[event] then return self[event](self, event, ...) end end)
 f:RegisterEvent("UNIT_AURA")
 f:RegisterEvent("UNIT_TARGET")
+
+
 -----------------------------
 --    Utility Functions    --
 -----------------------------
@@ -34,6 +38,7 @@ local function scanAndUpdate()
     t:SetText("")
   end
 end
+
 
 --------------------------
 --    Event Handling    --
