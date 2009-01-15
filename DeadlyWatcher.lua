@@ -1,36 +1,48 @@
-local function Print(...) print("|cFF33FF99Addon Template|r:", ...) end
+-----------------------------
+--  Locals and Defaults    --
+-----------------------------
 
-DeadlyWatcher = CreateFrame("frame")
-DeadlyWatcher:SetParent(UIParent)
-DeadlyWatcher:SetWidth(50)
-DeadlyWatcher:SetHeight(50)
-DeadlyWatcher:SetPoint("CENTER", UIParent, "CENTER", 0, -150)
+-----------------------
+--    Frame Setup    --
+-----------------------
 
-DeadlyWatcher.countText = DeadlyWatcher:CreateFontString(nil, "OVERLAY")
-DeadlyWatcher.countText:SetAllPoints(DeadlyWatcher)
-DeadlyWatcher.countText:SetFont(STANDARD_TEXT_FONT, 26)
-DeadlyWatcher.countText:SetJustifyH("CENTER")
-DeadlyWatcher.countText:SetTextColor(0.1, 1, 0.1)
-DeadlyWatcher.countText:SetShadowOffset(0.7, -0.7)
+local f = CreateFrame("frame")
+f:SetParent(UIParent)
+f:SetWidth(50)
+f:SetHeight(50)
+f:SetPoint("CENTER", UIParent, "CENTER", 0, -150)
 
-DeadlyWatcher:SetScript("OnEvent", function(self, event, ...) if self[event] then return self[event](self, event, ...) end end)
-DeadlyWatcher:RegisterEvent("UNIT_AURA")
-DeadlyWatcher:RegisterEvent("UNIT_TARGET")
+local countText = f:CreateFontString(nil, "OVERLAY")
+countText:SetAllPoints(f)
+countText:SetFont(STANDARD_TEXT_FONT, 26)
+countText:SetJustifyH("CENTER")
+countText:SetTextColor(0.1, 1, 0.1)
+countText:SetShadowOffset(0.7, -0.7)
 
-function DeadlyWatcher:scanAndUpdate()
+f:SetScript("OnEvent", function(self, event, ...) if self[event] then return self[event](self, event, ...) end end)
+f:RegisterEvent("UNIT_AURA")
+f:RegisterEvent("UNIT_TARGET")
+-----------------------------
+--    Utility Functions    --
+-----------------------------
+local function scanAndUpdate()
   name,_,_,count,_,_,_,isMine,_ = UnitDebuff("target", "Deadly Poison IX")
 
   if name and isMine then
-    self.countText:SetText(count)
+    countText:SetText(count)
   else
-    self.countText:SetText("")
+    countText:SetText("")
   end
 end
 
-function DeadlyWatcher:UNIT_AURA(event, unitID)
-  if unitID == "target" then self:scanAndUpdate() end
+--------------------------
+--    Event Handling    --
+--------------------------
+
+function f:UNIT_AURA(event, unitID)
+  if unitID == "target" then scanAndUpdate() end
 end
 
-function DeadlyWatcher:UNIT_TARGET(event, unitID)
-  if unitID == "player" then self:scanAndUpdate() end
+function f:UNIT_TARGET(event, unitID)
+  if unitID == "player" then scanAndUpdate() end
 end
